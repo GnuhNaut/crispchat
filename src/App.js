@@ -41,6 +41,16 @@ class App extends React.Component{
       .catch(error => {
           console.error('There was an error!', error);
       });
+    Api.get('/resolved-conversion')
+      .then(res => {
+        console.log('res', res.data)
+        this.setState({
+          dataClose: res.data.closeData
+        })
+      })
+      .catch(error => {
+          console.error('There was an error!', error);
+      });
   }
   
   render(){
@@ -81,43 +91,6 @@ class App extends React.Component{
                   {record}
           </div>
       )
-      },
-      {
-        title: 'Resolved',
-        key: 'close',
-        dataIndex: 'close',
-        render: (record, data) => (
-          <div
-              style={{
-                  paddingLeft: this.state.isMobile ? 20 : 0
-              }}
-              onClick={e => {
-                if(data.close === 0 || data.name === "All"){
-                  return 0;
-                }
-                this.setState({
-                  modalCountClose: true,
-                  closeData: data.ticket_resolve,
-                  nameModal: data.name
-                })
-                console.log('datatable', data.ticket_resolve)
-              }}
-          >
-                  {record}
-          </div>
-      )
-      },
-      {
-        title: 'Avg Time Resolve',
-        key: 'time',
-        dataIndex: 'time',
-        render: record => {
-          return (
-            <div>
-              {record}
-            </div>
-          )
-        }
       },
     ]
     const columns1 = [
@@ -202,6 +175,16 @@ class App extends React.Component{
             .catch(error => {
                 console.error('There was an error!', error);
             });
+          Api.get('/resolved-conversion?start='+Date.parse(dateString[0]) / 1000+'&end='+Date.parse(dateString[1]) / 1000, config)
+            .then(res => {
+              console.log('res', res.data)
+              this.setState({
+                dataClose: res.data.closeData,
+              })
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
         }} />
         <div style={{
           height: 20
@@ -215,6 +198,25 @@ class App extends React.Component{
         }}>
             <TabPane tab="Count" key={1}>
               <Table columns={columns} dataSource={this.state.dataSource}/>
+            </TabPane>
+            <TabPane tab="Resolved Conversions" key={4}>
+              <Table columns={columns1} dataSource={this.state.dataClose}
+                onRow={(record, rowIndex) => {
+                  return {
+                    onClick: event => {
+                      console.log('record', record)
+                      if(record.name === 'All'){
+                        return true;
+                      }
+                      this.setState({
+                        nameModal: record.name,
+                        dataCloseModal: record.session,
+                        modalClose: true
+                      })
+                    }, 
+                  };
+                }}
+              />
             </TabPane>
             <TabPane tab="Avg First Response" key={2}>
               <Table columns={columns1} dataSource={this.state.dataFirstResponse}
@@ -276,6 +278,34 @@ class App extends React.Component{
           <Modal title={"Conversion First Response " + this.state.nameModal} footer={null} visible={this.state.modalFirstResponse} onCancel={e=>this.setState({modalFirstResponse: false})}>
             {
               this.state.firstData && this.state.firstData.map((e, i) => {
+                console.log('data', e)
+                return (
+                  <div
+                    style={{
+                      padding: '5px 10px',
+                      borderBottom: '1px solid #0000004d'
+                    }}
+                  >
+                    <a href={`https://app.crisp.chat/website/${website}/inbox/${e.id}`} target="_blank">
+                      <span
+                        style={{
+                          paddingRight: 50
+                        }}
+                      >
+                        {e.nickname}
+                      </span>
+                      <span>
+                          {e.time}
+                      </span>
+                    </a>
+                  </div>
+                )
+              })
+            }
+          </Modal>
+          <Modal title={"Resolved Conversions " + this.state.nameModal} footer={null} visible={this.state.modalClose} onCancel={e=>this.setState({modalClose: false})}>
+            {
+              this.state.dataCloseModal && this.state.dataCloseModal.map((e, i) => {
                 console.log('data', e)
                 return (
                   <div

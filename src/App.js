@@ -41,7 +41,7 @@ class App extends React.Component{
       .catch(error => {
           console.error('There was an error!', error);
       });
-    Api.get('/resolved-conversion')
+    Api.get('/resolved-Conversation')
       .then(res => {
         console.log('res', res.data)
         this.setState({
@@ -113,7 +113,7 @@ class App extends React.Component{
         }
       },
       {
-        title: 'Total Conversion',
+        title: 'Total Conversation',
         key: 'count',
         dataIndex: 'count',
         defaultSortOrder: 'descend',
@@ -175,7 +175,7 @@ class App extends React.Component{
             .catch(error => {
                 console.error('There was an error!', error);
             });
-          Api.get('/resolved-conversion?start='+Date.parse(dateString[0]) / 1000+'&end='+Date.parse(dateString[1]) / 1000, config)
+          Api.get('/resolved-Conversation?start='+Date.parse(dateString[0]) / 1000+'&end='+Date.parse(dateString[1]) / 1000, config)
             .then(res => {
               console.log('res', res.data)
               this.setState({
@@ -199,7 +199,7 @@ class App extends React.Component{
             <TabPane tab="Count" key={1}>
               <Table columns={columns} dataSource={this.state.dataSource}/>
             </TabPane>
-            <TabPane tab="Resolved Conversions" key={4}>
+            <TabPane tab="Resolved Conversations" key={4}>
               <Table columns={columns1} dataSource={this.state.dataClose}
                 onRow={(record, rowIndex) => {
                   return {
@@ -241,7 +241,7 @@ class App extends React.Component{
               <Table columns={columns1} dataSource={this.state.dataResponse}/>
             </TabPane>
           </Tabs>
-          <Modal title={"Conversion Unresolved " + this.state.nameModal} footer={null} visible={this.state.modalCountOpen} onCancel={e=>this.setState({modalCountOpen: false})}>
+          <Modal title={"Conversation Unresolved " + this.state.nameModal} footer={null} visible={this.state.modalCountOpen} onCancel={e=>this.setState({modalCountOpen: false})}>
             {
               this.state.openData && this.state.openData.map((e, i) => {
                 console.log('data', e)
@@ -258,7 +258,7 @@ class App extends React.Component{
               })
             }
           </Modal>
-          <Modal title={"Conversion Resolved " + this.state.nameModal} footer={null} visible={this.state.modalCountClose} onCancel={e=>this.setState({modalCountClose: false})}>
+          <Modal title={"Conversation Resolved " + this.state.nameModal} footer={null} visible={this.state.modalCountClose} onCancel={e=>this.setState({modalCountClose: false})}>
             {
               this.state.closeData && this.state.closeData.map((e, i) => {
                 console.log('data', e)
@@ -275,7 +275,7 @@ class App extends React.Component{
               })
             }
           </Modal>
-          <Modal title={"Conversion First Response " + this.state.nameModal} footer={null} visible={this.state.modalFirstResponse} onCancel={e=>this.setState({modalFirstResponse: false})}>
+          <Modal title={"Conversation First Response " + this.state.nameModal} footer={null} visible={this.state.modalFirstResponse} onCancel={e=>this.setState({modalFirstResponse: false})}>
             {
               this.state.firstData && this.state.firstData.map((e, i) => {
                 console.log('data', e)
@@ -303,7 +303,7 @@ class App extends React.Component{
               })
             }
           </Modal>
-          <Modal title={"Resolved Conversions " + this.state.nameModal} footer={null} visible={this.state.modalClose} onCancel={e=>this.setState({modalClose: false})}>
+          <Modal title={"Resolved Conversations " + this.state.nameModal} footer={null} visible={this.state.modalClose} onCancel={e=>this.setState({modalClose: false})}>
             {
               this.state.dataCloseModal && this.state.dataCloseModal.map((e, i) => {
                 console.log('data', e)

@@ -41,7 +41,7 @@ class App extends React.Component{
       .catch(error => {
           console.error('There was an error!', error);
       });
-    Api.get('/resolved-Conversation')
+    Api.get('/resolved-conversion')
       .then(res => {
         console.log('res', res.data)
         this.setState({
@@ -175,7 +175,7 @@ class App extends React.Component{
             .catch(error => {
                 console.error('There was an error!', error);
             });
-          Api.get('/resolved-Conversation?start='+Date.parse(dateString[0]) / 1000+'&end='+Date.parse(dateString[1]) / 1000, config)
+          Api.get('/resolved-conversion?start='+Date.parse(dateString[0]) / 1000+'&end='+Date.parse(dateString[1]) / 1000, config)
             .then(res => {
               console.log('res', res.data)
               this.setState({
